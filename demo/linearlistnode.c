@@ -6,25 +6,43 @@ struct node{
     int data;
     struct node *link;
 };
+
+// 定义双向链表
+struct dnode
+{
+    int data;
+    struct dnode *rlink, *llink;
+};
+typedef struct dnode Dnode;
+typedef Dnode *Dnodeptr;
+Dnodeptr list = NULL;
+
+
 //继续定义链表，方便后续表示
 typedef struct node Node;
 typedef struct node *Nodeptr;
 
-Nodeptr creatlist(int n);  //创建一个n个节点的链表
+//创建一个n个节点的链表
+Nodeptr creatlist(int n);  
+//获取链表的长度
+int getLength(Nodeptr list);  
+//在表头插入元素
+Nodeptr insertFirst(Nodeptr list,int item);  
+//在p之后插入元素
+void insertNode(Nodeptr p, int item);  
+// 在第n个节点后插入
+void insertNode1(Nodeptr list, int n, int item);  
+// 在增序链表里插入
+Nodeptr insertNode2(Nodeptr list, int elem);  
+// 删除p指向的节点，且给出p的前驱节点r
+Nodeptr deleteNode1(Nodeptr list, Nodeptr r, Nodeptr p);  
+// 删除p指向的节点，但不给出前驱节点
+Nodeptr deleteNode2(Nodeptr list, Nodeptr p);  
+// 双向非空循环链表插入
+int insertDnode(Dnodeptr list, int x, int item);
+// 带头结点的双向非空循环链表删除
+int deleteDnode(Dnodeptr list, int x);
 
-int getLength(Nodeptr list);  //获取链表的长度
-
-Nodeptr insertFirst(Nodeptr list,int item);  //在表头插入元素
-
-void insertNode(Nodeptr p, int item);  //在p之后插入元素
-
-void insertNode1(Nodeptr list, int n, int item);  // 在第n个节点后插入
-
-Nodeptr insertNode2(Nodeptr list, int elem);  // 在增序链表里插入
-
-Nodeptr deleteNode1(Nodeptr list, Nodeptr r, Nodeptr p);  // 删除p指向的节点，且给出p的前驱节点r
-
-Nodeptr deleteNode2(Nodeptr list, Nodeptr p);  // 删除p指向的节点，但不给出前驱节点
 
 Nodeptr creatlist(int n)
 {
@@ -130,4 +148,31 @@ Nodeptr deleteNode2(Nodeptr list, Nodeptr p)
     r->link=p->link;  //也可以写成r->link=r->link->link;
     free(p);
     return list;
+}
+
+int insertDnode(Dnodeptr list, int x, int item)
+{
+    Dnodeptr p,q;
+    // 先寻找满足条件的链节点
+    for(q=list->rlink;q!=NULL && q->data!=x;q=q->rlink);
+    if(q==list)return -1;
+    p=(Dnodeptr)malloc(sizeof(Dnode));
+    p->data=item;
+    p->llink=q;  // p的前驱节点指向q
+    p->rlink=q->rlink;  // p的后继节点指向q的后继
+    q->rlink->llink=p;  // q的下一个的上一个指向p
+    q->rlink=p;  // q的下一个是p
+    return 1;
+}
+
+int deleteDnode(Dnodeptr list, int x)
+{
+    Dnodeptr q;
+    for(q=list->rlink;q!=NULL && q->data!=x;q=q->rlink);
+    if(q==list);
+        return -1;
+    q->llink->rlink=q->rlink; // q的上一个的下一个应该指向q的下一个
+    q->rlink->llink=q->llink;
+    free(q);
+    return 1;
 }

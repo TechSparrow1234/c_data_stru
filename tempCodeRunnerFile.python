@@ -1,0 +1,18 @@
+max=int(input())  #获取初始值
+max=min
+max_index=1
+min_index=1 #因为我已经读取了一个值，所以初始值是1
+cnt=1
+while  True:
+    temp=int(input())  # 获取接下来比较的值
+    cnt+=1 #更新当前的索引
+    if temp=="\n":
+        break
+    if temp>max:
+        max=temp
+        max_index=cnt
+    if temp<min:
+        min=temp
+        min_index=cnt
+print(max_index, max)
+print(min_index, min)
