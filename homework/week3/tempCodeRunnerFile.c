@@ -24,6 +24,8 @@ typedef Node *Nodeptr;
 Nodeptr Top = NULL;
 // 全局变量Top，不用每一个都传入 
 
+
+
 void changeinfix(char *ch);
 int isEmpty();
 char pop();
@@ -38,7 +40,7 @@ int main()
     {
         changeinfix(&c);
     }
-    while(!isEmpty()==1)
+    while(isEmpty()==1)
     {
         temp = pop();
         printf("%c",temp);
@@ -48,23 +50,22 @@ int main()
 
 void changeinfix(char *ch)
 {
-    char temp='+';
+    char temp;
     if(isalpha(*ch))
     {
         printf("%c",*ch);
     }
     else if(*ch==')')
     {
-        while(temp !='(')
+        while((temp=pop())!='(')
         {
             temp=pop();
-            if(temp=='(')continue;
             printf("%c",temp);
         }
     }
     else
     {
-        while(!isEmpty() && Top->data != '(' && get_precedence(Top->data) >= get_precedence(*ch))
+        while(isEmpty() && Top->data != '(' && get_precedence(Top->data) >= get_precedence(*ch))
         {
             temp = pop();
             printf("%c",temp);

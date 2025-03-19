@@ -38,7 +38,7 @@ int main()
     {
         changeinfix(&c);
     }
-    while(!isEmpty()==1)
+    while(!isEmpty())
     {
         temp = pop();
         printf("%c",temp);
@@ -124,5 +124,7 @@ int get_precedence(char op)
         case '(':
         case ')':
             return 3;
+        default:
+            return -1;
     }
 }
